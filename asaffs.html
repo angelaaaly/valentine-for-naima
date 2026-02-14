@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NAIMA x VALENTINE</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --bg: #050505;
+            --accent: #ff2d55;
+            --glass: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.1);
+            --bird-blue: #00d2ff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: white;
+            font-family: 'Inter', -apple-system, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* --- BIRD ANIMATION --- */
+        .bird-container {
+            position: absolute;
+            top: 20%;
+            left: -100px;
+            animation: fly 8s linear infinite;
+            z-index: 1;
+        }
+
+        .bird-2 { top: 60%; animation-delay: 4s; animation-duration: 10s; }
+
+        .bird {
+            font-size: 2rem;
+            filter: drop-shadow(0 0 10px var(--bird-blue));
+        }
+
+        @keyframes fly {
+            0% { transform: translateX(-100px) translateY(0); }
+            50% { transform: translateX(50vw) translateY(-50px); }
+            100% { transform: translateX(110vw) translateY(0); }
+        }
+
+        /* --- UI STYLING --- */
+        .glow {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: var(--accent);
+            filter: blur(120px);
+            opacity: 0.2;
+            z-index: 0;
+        }
+
+        #container {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            padding: 40px;
+            border-radius: 32px;
+            text-align: center;
+            width: 90%;
+            max-width: 450px;
+            z-index: 10;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .status-badge {
+            background: rgba(255, 45, 85, 0.1);
+            color: var(--accent);
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        h1 { font-size: 2.5rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 10px; }
+        p { color: #888; margin-bottom: 30px; }
+
+        .btn-group { display: flex; flex-direction: column; gap: 12px; }
+
+        button {
+            border: none;
+            padding: 16px;
+            border-radius: 16px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        #yesBtn { background: white; color: black; width: 100%; }
+        #noBtn { background: transparent; color: #555; border: 1px solid var(--border); position: relative; }
+
+        .success-screen { display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="bird-container"><div class="bird">🐦</div></div>
+    <div class="bird-container bird-2"><div class="bird">🕊️</div></div>
+
+    <div class="glow"></div>
+
+    <div id="container">
+        <div id="main-ui">
+            <span class="status-badge">Naima Exclusive</span>
+            <h1>Valentine Proposal?</h1>
+            <p>Error 404: "No" button not found. Birds are monitoring your response.</p>
+            
+            <div class="btn-group">
+                <button id="yesBtn" onclick="win()">Accept (Recommended)</button>
+                <button id="noBtn" onmouseover="dodge()">Ignore (L Aura)</button>
+            </div>
+        </div>
+
+        <div id="success-ui" class="success-screen">
+            <h1 style="color: var(--accent)">W RIZZZ</h1>
+            <p>The birds are celebrating. <br><b>Feb 14 is officially booked.</b></p>
+        </div>
+    </div>
+
+    <script>
+        function dodge() {
+            const btn = document.getElementById('noBtn');
+            const x = Math.random() * 300 - 150;
+            const y = Math.random() * 300 - 150;
+            btn.style.position = 'fixed';
+            btn.style.left = `calc(50% + ${x}px)`;
+            btn.style.top = `calc(50% + ${y}px)`;
+            // Make the yes button slightly more "imposing"
+            document.getElementById('yesBtn').style.transform = 'scale(1.05)';
+        }
+
+        function win() {
+            document.getElementById('main-ui').style.display = 'none';
+            document.getElementById('success-ui').style.display = 'block';
+            
+            // Confetti
+            for(let i=0; i<3; i++) {
+                setTimeout(() => {
+                    confetti({
+                        particleCount: 150,
+                        spread: 70,
+                        origin: { y: 0.6 },
+                        colors: ['#ff2d55', '#ffffff', '#00d2ff']
+                    });
+                }, i * 300);
+            }
+        }
+    </script>
+</body>
+</html>
